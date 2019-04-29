@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1047570831160",
+    "firebase_url": "https://storiz-me.firebaseio.com",
+    "project_id": "storiz-me",
+    "storage_bucket": "storiz-me.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047570831160:android:220ca6c8f6695803",
+        "android_client_info": {
+          "package_name": "com.storiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047570831160-e5mtvmgb7iuu6kbfqu3ditqpel5sehou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDa5m2zMcDsNfHlsQTdj_Zi4X9b8IVR7z8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047570831160-e5mtvmgb7iuu6kbfqu3ditqpel5sehou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
