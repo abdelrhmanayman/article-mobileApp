@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Container, Button, Icon, Content, Text, Spinner } from 'native-base'
 import { ForgetPasswordFrom } from '../../components/form/Form'
 import styles from '../styles'
-import { forgetPasswordAction } from '../../actions/authActions'
+import { forgetPasswordAction } from '../../redux/actions/authActions'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 
@@ -22,7 +22,7 @@ class ForgetPassword extends Component {
                         style={[styles.line, styles.upperLine]}
                         onPress={handleSubmit(this.forgetPassword.bind(this))}>
                         <Text>Send Verification Email</Text>
-                        {loading ? <Spinner /> : <Icon name='arrow-forward' />}
+                        {loading ? <Spinner /> : <Icon name='send' />}
                     </Button>
                 </Content>
             </Container>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Container, Button, Icon, Content, Text, Spinner } from 'native-base'
 import styles from '../styles'
 import { SignUpForm } from '../../components/form/Form'
-import { signUpAction } from '../../actions/authActions'
+import { signUpAction } from '../../redux/actions/authActions'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 
@@ -19,7 +19,7 @@ class SignUp extends Component {
                     <SignUpForm />
                     <Button iconRight full rounded disabled={loading} style={styles.line} onPress={handleSubmit(this.signUp.bind(this))}>
                         <Text>Sign Up</Text>
-                        {loading ? <Spinner /> : <Icon name='arrow-forward' />}
+                        {loading ? <Spinner /> : <Icon name='person-add' />}
                     </Button>
                 </Content>
             </Container>

@@ -9,7 +9,7 @@ export const fields = [
         name="email"
         component={renderInput}
         label="Email Address"
-        icon="ios-person"
+        icon="person"
         validate={[required, email]}
     />
 ]

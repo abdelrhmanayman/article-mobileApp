@@ -2,15 +2,15 @@ import React from 'react'
 import { createStore, applyMiddleware } from 'redux'
 import { Root } from 'native-base'
 import { Provider } from 'react-redux'
-import allReducers from './reducers'
+import allReducers from './redux/reducers'
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import NavigationService from './services/NavigationService'
 import Login from './screens/auth/Login'
 import SignUp from './screens/auth/Signup'
 import ForgetPassword from './screens/auth/ForgetPassword'
-import Home from './screens/Home'
+import Home from './screens/home/Home'
 import creatSagaMiddleware from 'redux-saga'
-import rootSaga from './sagas/rootSaga'
+import rootSaga from './redux/sagas/rootSaga'
 import firebase from 'react-native-firebase'
 
 const AppNavigator = createStackNavigator(

@@ -9,7 +9,7 @@ export const fields = [
         name="email"
         component={renderInput}
         label="Email Address"
-        icon="ios-person"
+        icon="person"
         validate={[required, email]}
     />,
     <Field
@@ -17,7 +17,7 @@ export const fields = [
         name="password"
         component={renderInput}
         label="Password"
-        icon="ios-unlock"
+        icon="unlock"
         secureTextEntry={true}
         validate={required}
     />
