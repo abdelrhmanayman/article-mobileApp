@@ -13,6 +13,8 @@ import creatSagaMiddleware from 'redux-saga'
 import rootSaga from './redux/sagas/rootSaga'
 import firebase from 'react-native-firebase'
 
+firebase.firestore().enablePersistence(true)
+
 const AppNavigator = createStackNavigator(
   { SignUp, Home, Login, ForgetPassword},
   {

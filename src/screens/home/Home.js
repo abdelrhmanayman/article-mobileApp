@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Tab, Tabs, TabHeading, Icon, Text, Header, Right, Button, ActionSheet, Left, Footer, FooterTab } from 'native-base'
+import { Container, Tab, Tabs, TabHeading, Icon, Text, Button, Footer, FooterTab } from 'native-base'
 import Private from '../tabs/Private'
 import Public from '../tabs/Public'
 import Shared from '../tabs/Shared'
@@ -10,28 +10,10 @@ import Notifications from '../tabs/Notifications'
 import Account from '../tabs/Account'
 
 class Home extends Component {
-    actionTaken = (index) => {
-        switch (index) {
-            case 0:
-                this.props.loadAccountAction()
-                break
-            case 1:
-                firebase.auth().signOut()
-                this.props.navigation.navigate('Login')
-                break
-        }
+    signOut = () => {
+        firebase.auth().signOut()
+        this.props.navigation.navigate('Login')
     }
-
-    showMenu = () =>
-        ActionSheet.show(
-            {
-                options: [
-                    { text: "Account", icon: "contact" },
-                    { text: "Sign out", icon: "log-out" },
-                ]
-            },
-            this.actionTaken
-        )
     renderHome = () =>
         <Tabs>
             <Tab heading={
@@ -61,7 +43,7 @@ class Home extends Component {
         </Tabs>
 
     render() {
-        const { notifications, showAccount, showNotifications, showHome } = this.props
+        const { showAccount, showNotifications, showHome } = this.props
         return (
             <Container>
                 {showHome && this.renderHome()}
@@ -69,14 +51,21 @@ class Home extends Component {
                 {showAccount && <Account />}
                 <Footer>
                     <FooterTab>
-                        <Button active={showHome} onPress={() => this.props.loadHomeAction()}>
+                        <Button vertical active={showHome} onPress={() => this.props.loadHomeAction()}>
                             <Icon active={showHome} name="home" />
+                            <Text>Home</Text>
                         </Button>
-                        <Button active={showNotifications} onPress={() => this.props.loadNotificationsAction()}>
+                        <Button vertical active={showNotifications} onPress={() => this.props.loadNotificationsAction()}>
                             <Icon active={showNotifications} name='notifications' />
+                            <Text>Updates</Text>
                         </Button>
-                        <Button active={showAccount} onPress={this.showMenu}>
+                        <Button vertical active={showAccount} onPress={() => this.props.loadAccountAction()}>
                             <Icon active={showAccount} name='person' />
+                            <Text>Account</Text>
+                        </Button>
+                        <Button vertical onPress={() => this.signOut()}>
+                            <Icon name='log-out' />
+                            <Text>Log out</Text>
                         </Button>
                     </FooterTab>
                 </Footer>

@@ -77,7 +77,7 @@ function* forgetPasswordFunction({ params }) {
                 type: "success"
             }
         }))
-        NavigationService.navigate('Login')
+        NavigationService.reset('Login')
     } catch (error) {
         yield put(forgetPasswordActionFailure({
             toast: {

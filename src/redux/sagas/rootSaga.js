@@ -1,13 +1,15 @@
 import { all } from 'redux-saga/effects'
 import { login, signUp, forgetPassword } from './authSagas'
-import { loadNotifications } from './tabsSagas'
+import { loadNotifications, loadAccount,updateUser } from './tabsSagas'
 
 function* rootSaga() {
     yield all([
         login(),
         signUp(),
         forgetPassword(),
-        loadNotifications()
+        loadNotifications(),
+        loadAccount(),
+        updateUser(),
     ])
 }
 export default rootSaga

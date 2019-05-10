@@ -13,6 +13,11 @@ export const SignUpForm = () =>
         {require('./fields/signUp').fields}
     </Form >
 export const ForgetPasswordFrom = () =>
-    <Form>
+    <Form style={styles.line}>
         {require('./fields/forgetPassword').fields}
+    </Form>
+
+export const AccountForm = () =>
+    <Form style={styles.line}>
+        {require('./fields/account').fields}
     </Form>

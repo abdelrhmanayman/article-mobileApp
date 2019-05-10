@@ -1,27 +1,28 @@
 import {
     LOAD_NOTIFICATIONS, LOAD_NOTIFICATIONS_FAILURE, LOAD_NOTIFICATIONS_SUCCESS,
     LOAD_HOME,
-    LOAD_ACCOUNT
+    LOAD_ACCOUNT,
+    LOAD_ACCOUNT_SUCCESS,
+    LOAD_ACCOUNT_FAILURE,
+    UPDATE_ACCOUNT,
+    UPDATE_ACCOUNT_FAILURE,
+    UPDATE_ACCOUNT_SUCCESS
 } from '../actions/types'
 import { Toast } from 'native-base'
 
 const initialState = {
     loading: false,
     notifications: [],
-    showAccount: false,
+    showAccount: true,
     showNotifications: false,
-    showHome: true
+    showHome: false
 }
 
 const toolbarReducer = (state = initialState, action) => {
     if (action.params) {
         let { toast } = action.params
         if (toast)
-            Toast.show({
-                ...toast,
-                buttonText: "Okay",
-                duration: 5000
-            })
+            Toast.show({ ...toast, position: "top" })
     }
     switch (action.type) {
         case LOAD_NOTIFICATIONS:
@@ -31,9 +32,19 @@ const toolbarReducer = (state = initialState, action) => {
         case LOAD_NOTIFICATIONS_FAILURE:
             return { ...state, loading: false }
         case LOAD_ACCOUNT:
-            return { ...state, showNotifications: false, showHome: false, showAccount: true }
+            return { ...state, loading: true, showNotifications: false, showHome: false, showAccount: true }
         case LOAD_HOME:
-            return { ...state, showNotifications: false, showHome: true, showAccount: false }
+            return { ...state, loading: true, showNotifications: false, showHome: true, showAccount: false }
+        case LOAD_ACCOUNT_SUCCESS:
+            return { ...state, loading: false, initialValues: action.params.account }
+        case LOAD_ACCOUNT_FAILURE:
+            return { ...state, loading: false }
+        case UPDATE_ACCOUNT:
+            return { ...state, loading: true }
+        case UPDATE_ACCOUNT_FAILURE:
+            return { ...state, loading: false }
+        case UPDATE_ACCOUNT_SUCCESS:
+            return { ...state, loading: false }
         default:
             return state
     }

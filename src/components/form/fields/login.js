@@ -8,16 +8,16 @@ export const fields = [
         key="email"
         name="email"
         component={renderInput}
-        label="Email Address"
-        icon="person"
+        labelText="Email Address"
+        iconName="person"
         validate={[required, email]}
     />,
     <Field
         key="password"
         name="password"
         component={renderInput}
-        label="Password"
-        icon="unlock"
+        labelText="Password"
+        iconName="unlock"
         secureTextEntry={true}
         validate={required}
     />

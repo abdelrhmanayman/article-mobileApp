@@ -32,6 +32,7 @@ class ForgetPassword extends Component {
 
 let forgetPasswordFormDecorated = reduxForm({
     form: "forget-password",
+    enableReinitialize: true
 })(ForgetPassword)
 
 forgetPasswordFormDecorated = connect(

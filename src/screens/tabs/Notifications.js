@@ -1,20 +1,27 @@
 import React, { Component } from 'react'
 import { Container, Button, Icon, Content, Text, Spinner } from 'native-base'
-
-export default class Notifications extends Component {
-
+import { connect } from 'react-redux'
+import { loadNotificationsAction } from '../../redux/actions/tabsActions'
+class Notifications extends Component {
     signUp(values) {
         this.props.signUpAction(values)
     }
     render() {
         const { loading, notifications } = this.props
-        console.log(notifications)
         return (
             <Container>
                 <Content>
-                    {loading && <Spinner />}
+                    {
+                        // !isEmpty(listData)
+                        //     ? map(listData, (data, i) => <ListItem key={i} {...data} />)
+                        //     : 
+                    }
                 </Content>
-            </Container>
+            </Container >
         )
     }
 }
+
+export default connect(
+    state => state.tabs
+)(Notifications)

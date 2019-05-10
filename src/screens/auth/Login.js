@@ -36,6 +36,7 @@ class Login extends Component {
 
 let LoginFormDecorated = reduxForm({
     form: "sign-in",
+    enableReinitialize: true
 })(Login)
 
 LoginFormDecorated = connect(

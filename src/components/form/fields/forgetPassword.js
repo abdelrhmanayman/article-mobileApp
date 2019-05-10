@@ -8,8 +8,8 @@ export const fields = [
         key="email"
         name="email"
         component={renderInput}
-        label="Email Address"
-        icon="person"
+        labelText="Email Address"
+        iconName="person"
         validate={[required, email]}
     />
 ]
