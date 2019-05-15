@@ -4,9 +4,18 @@ import { reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { updateAccountAction } from '../../redux/actions/tabsActions'
 import { AccountForm } from "../../components/form/Form"
+import { uploadImageAction } from '../../redux/actions/tabsActions'
+import ImagePicker from 'react-native-image-picker'
+
 class Account extends Component {
-    componentDidMount() {
-        console.log("Account")
+
+    handleChoosePhoto = () => {
+        ImagePicker.launchImageLibrary(
+            { noData: true },
+            response => {
+                if (response.uri)
+                    this.props.uploadImageAction(response)
+            })
     }
     update(value) {
         this.props.updateAccountAction(value)
@@ -27,7 +36,7 @@ class Account extends Component {
                         </ListItem>
                         <ListItem>
                             <Content>
-                                <AccountForm />
+                                <AccountForm data={{ imageChooser: this.handleChoosePhoto }} />
                                 <Row>
                                     <Right>
                                         <Button
@@ -39,12 +48,6 @@ class Account extends Component {
                                     </Right>
                                 </Row>
                             </Content>
-                        </ListItem>
-                        <ListItem itemDivider>
-                            <Text>App Settings</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Bradley Horowitz</Text>
                         </ListItem>
                     </List>
                 </Content>
@@ -59,7 +62,7 @@ let ProfileFormDecorated = reduxForm({
 
 ProfileFormDecorated = connect(
     state => state.tabs,
-    { updateAccountAction }
+    { updateAccountAction, uploadImageAction }
 )(ProfileFormDecorated)
 
 export default ProfileFormDecorated

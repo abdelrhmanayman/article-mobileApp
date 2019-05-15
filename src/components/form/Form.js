@@ -17,7 +17,7 @@ export const ForgetPasswordFrom = () =>
         {require('./fields/forgetPassword').fields}
     </Form>
 
-export const AccountForm = () =>
+export const AccountForm = ({ data }) =>
     <Form style={styles.line}>
-        {require('./fields/account').fields}
+        {require('./fields/account').fields(data)}
     </Form>

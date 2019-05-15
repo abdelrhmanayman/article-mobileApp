@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Tab, Tabs, TabHeading, Icon, Text, Button, Footer, FooterTab } from 'native-base'
+import { Container, Tab, Tabs, TabHeading, Icon, Text, Button, Footer, FooterTab, Badge } from 'native-base'
 import Private from '../tabs/Private'
 import Public from '../tabs/Public'
 import Shared from '../tabs/Shared'
@@ -55,7 +55,8 @@ class Home extends Component {
                             <Icon active={showHome} name="home" />
                             <Text>Home</Text>
                         </Button>
-                        <Button vertical active={showNotifications} onPress={() => this.props.loadNotificationsAction()}>
+                        <Button vertical badge active={showNotifications} onPress={() => this.props.loadNotificationsAction()}>
+                            <Badge><Text>2</Text></Badge>
                             <Icon active={showNotifications} name='notifications' />
                             <Text>Updates</Text>
                         </Button>

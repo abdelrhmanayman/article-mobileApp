@@ -5,6 +5,9 @@ import {
     UPDATE_ACCOUNT,
     UPDATE_ACCOUNT_FAILURE,
     UPDATE_ACCOUNT_SUCCESS,
+    UPLOAD_IMAGE,
+    UPLOAD_IMAGE_SUCESS,
+    UPLOAD_IMAGE_FAILURE,
 } from './types'
 
 export const loadNotificationsAction = params => ({
@@ -48,5 +51,20 @@ export const updateAccountActionFailure = params => ({
 
 export const loadHomeAction = params => ({
     type: LOAD_HOME,
+    params
+})
+
+export const uploadImageAction = params => ({
+    type: UPLOAD_IMAGE,
+    params
+})
+
+export const uploadImageActionSuccess = params => ({
+    type: UPLOAD_IMAGE_SUCESS,
+    params
+})
+
+export const uploadImageActionFailure = params => ({
+    type: UPLOAD_IMAGE_FAILURE,
     params
 })

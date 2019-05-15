@@ -6,15 +6,18 @@ import {
     LOAD_ACCOUNT_FAILURE,
     UPDATE_ACCOUNT,
     UPDATE_ACCOUNT_FAILURE,
-    UPDATE_ACCOUNT_SUCCESS
+    UPDATE_ACCOUNT_SUCCESS,
+    UPLOAD_IMAGE,
+    UPLOAD_IMAGE_SUCESS,
+    UPLOAD_IMAGE_FAILURE
 } from '../actions/types'
 import { Toast } from 'native-base'
 
 const initialState = {
     loading: false,
     notifications: [],
-    showAccount: true,
-    showNotifications: false,
+    showAccount: false,
+    showNotifications: true,
     showHome: false
 }
 
@@ -44,6 +47,14 @@ const toolbarReducer = (state = initialState, action) => {
         case UPDATE_ACCOUNT_FAILURE:
             return { ...state, loading: false }
         case UPDATE_ACCOUNT_SUCCESS:
+            return { ...state, loading: false }
+        case UPLOAD_IMAGE:
+            return { ...state, loading: true }
+        case UPLOAD_IMAGE_SUCESS:
+            let { initialValues } = state
+            initialValues.avatar = action.params.avatar
+            return { ...state, initialValues, loading: false }
+        case UPLOAD_IMAGE_FAILURE:
             return { ...state, loading: false }
         default:
             return state

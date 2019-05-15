@@ -1,8 +1,16 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { renderInput, renderDropDown } from '../renderer'
+import { renderInput, renderDropDown, renderAvatar } from '../renderer'
 
-export const fields = [
+export const fields = ({ imageChooser }) => [
+    <Field
+        key="avatar"
+        name="avatar"
+        component={renderAvatar}
+        controller={imageChooser}
+        labelText="Upload your avatar"
+        iconName="ios-contact"
+    />,
     <Field
         key="firstname"
         name="firstname"
@@ -22,13 +30,14 @@ export const fields = [
         name="gender"
         labelText="Gender"
         component={renderDropDown}
-        data={[{
-            value: "Male",
-            icon: "man"
-        },
-        {
-            value: "Female",
-            icon: "woman"
-        }]}
+        data={["Male", "Female"]}
+    />,
+    <Field
+        key="age"
+        name="age"
+        labelText="Age"
+        keyboardType="numeric"
+        iconName="clock"
+        component={renderInput}
     />
 ]
