@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
     line: {
-        marginBottom: 10
+        padding: 20
     },
     upperLine: {
         marginTop: 20

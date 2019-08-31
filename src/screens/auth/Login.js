@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import { Container, Button, Icon, Content, Text, Spinner } from 'native-base'
+import { Container, Button, Icon, Content, Text, Spinner, Body } from 'native-base'
 import { LoginForm } from '../../components/form/Form'
 import styles from '../styles'
 import { loginAction } from '../../redux/actions/authActions'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
+import { Image } from 'react-native'
+
+const logo = require('../../assets/logo.png')
 
 class Login extends Component {
 
@@ -17,6 +20,9 @@ class Login extends Component {
         return (
             <Container style={styles.upperLine}>
                 <Content>
+                    <Body>
+                        <Image source={logo} style={{ height: 200, width: 200 }} />
+                    </Body>
                     <LoginForm />
                     <Button iconRight full rounded disabled={loading} style={styles.line} onPress={handleSubmit(this.login.bind(this))}>
                         <Text>Sign In</Text>
@@ -26,8 +32,6 @@ class Login extends Component {
                         <Text>Sign Up</Text>
                         <Icon name='person-add' />
                     </Button>
-                    <Text style={{ padding: 10, alignSelf: "flex-end" }}
-                        onPress={() => this.props.navigation.navigate('ForgetPassword')}>Forgot your password?</Text>
                 </Content>
             </Container>
         )

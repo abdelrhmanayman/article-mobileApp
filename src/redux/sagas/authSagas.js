@@ -1,43 +1,49 @@
 import { put, call, takeEvery } from 'redux-saga/effects'
-import { LOGIN, SIGN_UP, FORGET_PASS } from '../actions/types'
-import firebase from 'react-native-firebase'
+import { LOGIN, SIGN_UP, LOGOUT } from '../actions/types'
 import {
     loginActionSuccess, loginActionFailure,
-    signUpActionFailure, signUpActionSuccess,
-    forgetPasswordActionFailure, forgetPasswordActionSuccess
+    signUpActionFailure, signUpActionSuccess, logoutActionFailure
 } from '../actions/authActions'
 import NavigationService from '../../services/NavigationService'
+import client from '../../graphql/client'
+import queries from '../../graphql/queries'
+import { AsyncStorage } from 'react-native'
 
-const loginFirebase = ({ email, password }) =>
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(done => done.user)
+const logingraph = ({ username, password }) =>
+    client.query({
+        query: queries.login,
+        fetchPolicy: "network-only",
+        variables: { username, password }
+    }).then(({ data }) => data)
 
-const signUpFirebase = ({ email, password }) =>
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(done => done.user)
+const registergraph = ({ username, firstName: first, lastName: last, role, password }) =>
+    client.mutate({
+        mutation: queries.register,
+        variables: { user: { username, role, password, name: { first, last } } }
+    }).then(({ data }) => data)
 
-const sendEmailVerification = () =>
-    firebase.auth().currentUser.sendEmailVerification()
-
-const forgetPasswordFirebase = ({ email }) =>
-    firebase.auth().sendPasswordResetEmail(email)
+const logoutgraph = () =>
+    client.query({
+        query: queries.logout
+    }).then(({ data }) => data)
 
 function* loginFunction({ params }) {
     try {
-        yield call(loginFirebase, params)
-        if (firebase.auth().currentUser.emailVerified) {
+        const { login } = yield call(logingraph, params)
+        if (login && login._id) {
             yield put(loginActionSuccess())
+            AsyncStorage.setItem('user', JSON.stringify(login))
             NavigationService.navigate('Home')
         } else {
-            yield call(sendEmailVerification)
             yield put(loginActionFailure({
                 toast: {
-                    text: "Please check your Email inbox for verification.",
+                    text: "Incorrect Username or Password",
                     type: "danger"
                 }
             }))
         }
     } catch (error) {
+        console.log(error)
         yield put(loginActionFailure({
             toast: {
                 text: error.message,
@@ -49,39 +55,38 @@ function* loginFunction({ params }) {
 
 function* signUpFunction({ params }) {
     try {
-        yield call(signUpFirebase, params)
-        yield call(sendEmailVerification)
-        yield put(signUpActionSuccess({
-            toast: {
-                text: "Verification Email was sent to you.",
-                type: "success"
-            }
-        }))
-        NavigationService.navigate('Login')
+        const { register } = yield call(registergraph, params)
+        if (register && register._id) {
+            yield put(signUpActionSuccess({
+                toast: {
+                    text: "You are now registered, Please login!",
+                    type: "success"
+                }
+            }))
+            NavigationService.navigate('Login')
+        }
     } catch (error) {
+        console.log(error)
         yield put(signUpActionFailure({
             toast: {
-                text: error.message,
+                text: "Please try another username, This one is taken!",
                 type: "danger"
             }
         }))
     }
 }
 
-function* forgetPasswordFunction({ params }) {
+
+function* logoutFunction() {
     try {
-        yield call(forgetPasswordFirebase, params)
-        yield put(forgetPasswordActionSuccess({
+        yield call(logoutgraph)
+        AsyncStorage.removeItem('user', () => {
+            NavigationService.navigate('Login')
+        })
+    } catch ({ message }) {
+        yield put(logoutActionFailure({
             toast: {
-                text: "We have sent you an Email to reset your password.",
-                type: "success"
-            }
-        }))
-        NavigationService.reset('Login')
-    } catch (error) {
-        yield put(forgetPasswordActionFailure({
-            toast: {
-                text: error.message,
+                text: message,
                 type: "danger"
             }
         }))
@@ -96,6 +101,7 @@ export function* signUp() {
     yield takeEvery(SIGN_UP, signUpFunction)
 }
 
-export function* forgetPassword() {
-    yield takeEvery(FORGET_PASS, forgetPasswordFunction)
+
+export function* logout() {
+    yield takeEvery(LOGOUT, logoutFunction)
 }

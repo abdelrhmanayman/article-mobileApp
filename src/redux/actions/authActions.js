@@ -1,7 +1,8 @@
 import {
     LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE,
     SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
-    FORGET_PASS, FORGET_PASS_FAILURE, FORGET_PASS_SUCCESS
+    FORGET_PASS, FORGET_PASS_FAILURE, FORGET_PASS_SUCCESS,
+    LOGOUT, LOGOUT_FAILURE, LOGOUT_SUCCESS
 } from './types'
 
 export const loginAction = params => ({
@@ -39,5 +40,15 @@ export const forgetPasswordActionSuccess = params => ({
 })
 export const forgetPasswordActionFailure = params => ({
     type: FORGET_PASS_FAILURE,
+    params
+})
+export const logoutAction = () => ({
+    type: LOGOUT
+})
+export const logoutActionSuccess = () => ({
+    type: LOGOUT_SUCCESS
+})
+export const logoutActionFailure = params => ({
+    type: LOGOUT_FAILURE,
     params
 })

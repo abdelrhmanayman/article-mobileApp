@@ -1,16 +1,20 @@
 import { all } from 'redux-saga/effects'
-import { login, signUp, forgetPassword } from './authSagas'
-import { loadNotifications, loadAccount, updateUser, uploadImage } from './tabsSagas'
+import { login, signUp, logout } from './authSagas'
+import { getarticles, getArticleDetails, comment, addArticle, getWriterArticles, deleteArticle, publishArticle, updateArticle } from './articlesSagas'
 
 function* rootSaga() {
     yield all([
         login(),
         signUp(),
-        forgetPassword(),
-        loadNotifications(),
-        loadAccount(),
-        updateUser(),
-        uploadImage(),
+        logout(),
+        getarticles(),
+        getArticleDetails(),
+        comment(),
+        addArticle(),
+        getWriterArticles(),
+        deleteArticle(),
+        publishArticle(),
+        updateArticle()
     ])
 }
 export default rootSaga

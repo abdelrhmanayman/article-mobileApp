@@ -1,85 +1,84 @@
 import React, { Component } from 'react'
-import { Container, Tab, Tabs, TabHeading, Icon, Text, Button, Footer, FooterTab, Badge } from 'native-base'
-import Private from '../tabs/Private'
-import Public from '../tabs/Public'
-import Shared from '../tabs/Shared'
-import firebase from 'react-native-firebase'
+import { Container, Header, Content, Card, CardItem, Button, Icon, Text, Left, Right, Spinner } from 'native-base'
+import { Image } from 'react-native';
 import { connect } from 'react-redux'
-import { loadNotificationsAction, loadAccountAction, loadHomeAction } from '../../redux/actions/tabsActions'
-import Notifications from '../tabs/Notifications'
-import Account from '../tabs/Account'
+import { getArticlesAction } from '../../redux/actions/articlesActions'
+import { logoutAction } from '../../redux/actions/authActions'
+import { AsyncStorage, ScrollView } from 'react-native'
+import NavigationService from '../../services/NavigationService'
+import Footer from '../../components/footer'
+import { baseURL } from '../../graphql/client'
+
+
+var role = null
+var userId = null
+var username = null
 
 class Home extends Component {
     signOut = () => {
-        firebase.auth().signOut()
-        this.props.navigation.navigate('Login')
+        this.props.logoutAction()
     }
-    renderHome = () =>
-        <Tabs>
-            <Tab heading={
-                <TabHeading>
-                    <Icon name="globe" />
-                    <Text>Public</Text>
-                </TabHeading>
-            }>
-                <Public />
-            </Tab>
-            <Tab heading={
-                <TabHeading>
-                    <Icon name="people" />
-                    <Text>Shared</Text>
-                </TabHeading>
-            }>
-                <Shared />
-            </Tab>
-            <Tab heading={
-                <TabHeading>
-                    <Icon name="lock" />
-                    <Text>Private</Text>
-                </TabHeading>
-            }>
-                <Private />
-            </Tab>
-        </Tabs>
+
+    componentDidMount() {
+        this.props.getArticlesAction()
+    }
 
     render() {
-        const { showAccount, showNotifications, showHome } = this.props
+        const { articles, loading } = this.props.articles
+        AsyncStorage.getItem('user').then(user => {
+            role = JSON.parse(user).role
+            userId = JSON.parse(user)._id
+            username = JSON.parse(user).username
+        })
+        console.log(articles)
         return (
             <Container>
-                {showHome && this.renderHome()}
-                {showNotifications && <Notifications />}
-                {showAccount && <Account />}
-                <Footer>
-                    <FooterTab>
-                        <Button vertical active={showHome} onPress={() => this.props.loadHomeAction()}>
-                            <Icon active={showHome} name="home" />
-                            <Text>Home</Text>
-                        </Button>
-                        <Button vertical badge active={showNotifications} onPress={() => this.props.loadNotificationsAction()}>
-                            <Badge><Text>2</Text></Badge>
-                            <Icon active={showNotifications} name='notifications' />
-                            <Text>Updates</Text>
-                        </Button>
-                        <Button vertical active={showAccount} onPress={() => this.props.loadAccountAction()}>
-                            <Icon active={showAccount} name='person' />
-                            <Text>Account</Text>
-                        </Button>
-                        <Button vertical onPress={() => this.signOut()}>
-                            <Icon name='log-out' />
-                            <Text>Log out</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
+                {!loading ?
+                    <ScrollView>
+                        {articles.map((article, index) =>
+                            <Content key={index}>
+                                <Card style={{ flex: 0 }}>
+                                    <CardItem>
+                                        <Image source={{ uri: `${baseURL}/images` + article.picture }} style={{ height: 200, width: null, flex: 1 }} />
+                                    </CardItem>
+                                    <CardItem style={{ justifyContent: "center" }}>
+                                        <Text style={{ fontSize: 25, fontWeight: "bold" }}>{(article.name).toUpperCase()}</Text>
+                                    </CardItem>
+                                    <CardItem style={{ justifyContent: "center" }}>
+                                        <Left>
+                                            <Icon name="person" />
+                                            <Text note>Created by <Text>{username}</Text></Text>
+                                        </Left>
+                                        <Right>
+                                            <Button transparent onPress={() => { NavigationService.navigate('ArticleDetails', { id: article._id, role, userId, username }) }}>
+                                                <Text>See Details</Text>
+                                            </Button>
+                                        </Right>
+                                    </CardItem>
+                                </Card>
+                            </Content>
+                        )}
+                    </ScrollView>
+                    :
+                    <Content>
+                        <Spinner />
+                    </Content>
+                }
+                <Footer
+                    home={() => { }}
+                    myArticles={() => NavigationService.navigate('WriterArticles', { username, role })}
+                    role={role}
+                    logout={() => this.props.logoutAction()}
+                />
             </Container>
         )
     }
 }
 
 export default connect(
-    state => state.tabs,
+    state => state,
     {
-        loadNotificationsAction,
-        loadHomeAction,
-        loadAccountAction
+        logoutAction,
+        getArticlesAction
     }
 )(Home)

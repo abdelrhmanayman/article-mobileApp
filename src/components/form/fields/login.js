@@ -5,12 +5,12 @@ import { email, required } from '../validator'
 
 export const fields = [
     <Field
-        key="email"
-        name="email"
+        key="username"
+        name="username"
         component={renderInput}
-        labelText="Email Address"
+        labelText="Username"
         iconName="person"
-        validate={[required, email]}
+        validate={[required]}
     />,
     <Field
         key="password"

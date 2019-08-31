@@ -12,12 +12,8 @@ export const SignUpForm = () =>
     <Form style={styles.line}>
         {require('./fields/signUp').fields}
     </Form >
-export const ForgetPasswordFrom = () =>
-    <Form style={styles.line}>
-        {require('./fields/forgetPassword').fields}
-    </Form>
-
-export const AccountForm = ({ data }) =>
-    <Form style={styles.line}>
-        {require('./fields/account').fields(data)}
+    
+export const AddArticleForm = ({ data }) =>
+    <Form style={styles.line} >
+        {require('./fields/addArticle').fields(data)}
     </Form>
