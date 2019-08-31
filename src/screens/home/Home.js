@@ -30,7 +30,6 @@ class Home extends Component {
             userId = JSON.parse(user)._id
             username = JSON.parse(user).username
         })
-        console.log(articles)
         return (
             <Container>
                 {!loading ?
@@ -47,7 +46,7 @@ class Home extends Component {
                                     <CardItem style={{ justifyContent: "center" }}>
                                         <Left>
                                             <Icon name="person" />
-                                            <Text note>Created by <Text>{username}</Text></Text>
+                                            <Text note>Created by <Text>{article.meta.publishedBy}</Text></Text>
                                         </Left>
                                         <Right>
                                             <Button transparent onPress={() => { NavigationService.navigate('ArticleDetails', { id: article._id, role, userId, username }) }}>

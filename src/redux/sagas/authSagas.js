@@ -8,6 +8,7 @@ import NavigationService from '../../services/NavigationService'
 import client from '../../graphql/client'
 import queries from '../../graphql/queries'
 import { AsyncStorage } from 'react-native'
+import { StackActions, NavigationActions } from 'react-navigation';
 
 const logingraph = ({ username, password }) =>
     client.query({
@@ -29,11 +30,20 @@ const logoutgraph = () =>
 
 function* loginFunction({ params }) {
     try {
-        const { login } = yield call(logingraph, params)
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+        })
+        const { login } = yield call(logingraph, params.params)
         if (login && login._id) {
-            yield put(loginActionSuccess())
+            yield put(loginActionSuccess({
+                toast: {
+                    text: "You are loggedin!",
+                    type: "success"
+                }
+            }))
             AsyncStorage.setItem('user', JSON.stringify(login))
-            NavigationService.navigate('Home')
+            params.props.navigation.dispatch(resetAction)
         } else {
             yield put(loginActionFailure({
                 toast: {

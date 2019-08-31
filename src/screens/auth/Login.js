@@ -12,7 +12,7 @@ const logo = require('../../assets/logo.png')
 class Login extends Component {
 
     login(values) {
-        this.props.loginAction(values)
+        this.props.loginAction({ params: values, props: this.props })
     }
 
     render() {

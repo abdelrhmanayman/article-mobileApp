@@ -23,6 +23,9 @@ export default class Queries {
                 name
                 picture
                 _id
+                meta{
+                    publishedBy
+                }
             }
         }
         `

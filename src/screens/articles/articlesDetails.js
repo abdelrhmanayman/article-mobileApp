@@ -46,7 +46,7 @@ class ArticleDetails extends Component {
             <Container>
                 <Content>
                     {articleDetails.name ?
-                        <Tabs>
+                        <Tabs >
                             <Tab heading={<TabHeading><Text>Content</Text></TabHeading>}>
                                 <ScrollView>
                                     <Grid>
